@@ -15,6 +15,7 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
+        String test = "abc";
         // creating the list...
         List<Integer> numbers = Lists.newArrayList(1, 2, 3, 4, 5);
 
