@@ -1,26 +1,28 @@
 package ru.otus.l021;
 
 import java.lang.management.ManagementFactory;
+import java.util.function.Supplier;
 
 /**
- * VM options -Xmx512m -Xms512m
- * <p>
- * Runtime runtime = Runtime.getRuntime();
- * long mem = runtime.totalMemory() - runtime.freeMemory();
- * <p>
- * System.gc()
- * <p>
- * jconsole, connect to pid
+ * Created by Artsiom Mezin
+ *
+ * HW2 Otus 11 2017
+ * Memory Measurements
  */
 @SuppressWarnings({"RedundantStringConstructorCall", "InfiniteLoopStatement"})
 public class Main {
     public static void main(String... args) throws InterruptedException {
 
-        MemoryMeter.meter(MyClass.class);
-    }
+        MemoryMeter measurement = new MemoryMeter(
+                new Supplier<Object>() {
+                    @Override
+                    public String get() {
+                        return new String("abc");
+                    }
+                },
+                "String"
+        );
 
-    public static class MyClass {
-        private int i = 0;
-        private long l = 1;
+        measurement.meter();
     }
 }

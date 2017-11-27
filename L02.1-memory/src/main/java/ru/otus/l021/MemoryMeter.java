@@ -1,13 +1,20 @@
 package ru.otus.l021;
 
 import java.lang.management.ManagementFactory;
-import java.lang.reflect.Constructor;
+import java.util.function.Supplier;
 
 public class MemoryMeter {
 
-    static Runtime runtime = Runtime.getRuntime();
+    private Supplier supplier;
+    private String label;
+    private Runtime runtime = Runtime.getRuntime();
 
-    public static void meter (Class cls)  throws InterruptedException {
+    public MemoryMeter(Supplier<Object> supplier, String label) {
+        this.label = label;
+        this.supplier = supplier;
+    };
+
+    public void meter() throws InterruptedException {
         System.out.println("pid: " + ManagementFactory.getRuntimeMXBean().getName());
 
         int size = 20_000_000;
@@ -17,28 +24,22 @@ public class MemoryMeter {
             System.gc();
             Thread.sleep(40);
 
-            long initMeasurment = getAllocatedMemory();
-            printMeasurement("init", initMeasurment);
+            long initMeasurement = getAllocatedMemory();
+            printMeasurement("init", initMeasurement);
 
             Object[] array = new Object[size];
 
             long refMeasurement = getAllocatedMemory();
-            printMeasurement("reference", (refMeasurement - initMeasurment) / size);
+            printMeasurement("reference", (refMeasurement - initMeasurement) / size);
 
 
             System.out.println("New array of size: " + array.length + " created");
             for (int i = 0; i < size; i++) {
-                try {
-                    array[i] = cls.newInstance();
-                } catch (InstantiationException ex) {
-                    System.out.println("Strange java exception:> " + ex);
-                } catch (IllegalAccessException ex) {
-                    System.out.println("Another one strange java exception:> " + ex);
-                }
+                array[i] = supplier.get();
             }
 
             long objMeasurement = getAllocatedMemory();
-            printMeasurement(cls.getName(), (objMeasurement - refMeasurement) / size );
+            printMeasurement(this.label, (objMeasurement - refMeasurement) / size );
 
 
             System.out.println("Created " + size + " objects.");
@@ -46,11 +47,11 @@ public class MemoryMeter {
         }
     }
 
-    private static void printMeasurement(String label, long value) {
+    private void printMeasurement(String label, long value) {
         System.out.printf("%s %d%n", label, value);
     }
 
-    private static long getAllocatedMemory() {
+    private long getAllocatedMemory() {
         return runtime.totalMemory() - runtime.freeMemory();
     }
 }
