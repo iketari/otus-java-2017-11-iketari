@@ -42,7 +42,7 @@ public class Main {
 
 
             for (int i = 0; i < size; i++) {
-                array[i] = new Object();
+//                array[i] = new Object();
 //                array[i] = new String(""); //String pool
 //                array[i] = new String(new char[0]); //without String pool
 //                array[i] = new MyClass();
