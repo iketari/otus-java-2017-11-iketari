@@ -1,6 +1,8 @@
 package ru.otus.l021;
 
 import java.lang.management.ManagementFactory;
+import java.math.BigDecimal;
+import java.util.BitSet;
 
 /**
  * VM options -Xmx512m -Xms512m
@@ -36,15 +38,21 @@ public class Main {
 
 
             System.out.println("New array of size: " + array.length + " created");
+
+
+
             for (int i = 0; i < size; i++) {
                 array[i] = new Object();
-                //array[i] = new String(""); //String pool
-                //array[i] = new String(new char[0]); //without String pool
-                //array[i] = new MyClass();
+//                array[i] = new String(""); //String pool
+//                array[i] = new String(new char[0]); //without String pool
+//                array[i] = new MyClass();
+//                array[i] = 0;
+//                array[i] =  new BigDecimal("0.01");
+                array[i] =  new BitSet(16);
             }
 
             long objMeasurement = getAllocatedMemory();
-            printMeasurment("new Object()", (objMeasurement - refMeasurement) / size );
+            printMeasurment(array[0].getClass().getName(), (objMeasurement - refMeasurement) / size);
 
 
             System.out.println("Created " + size + " objects.");
@@ -63,5 +71,6 @@ public class Main {
     private static class MyClass {
         private int i = 0;
         private long l = 1;
+        private short[] s = {1, 2, 3};
     }
 }
