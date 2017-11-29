@@ -1,7 +1,7 @@
 package ru.otus.l021;
 
-import java.lang.management.ManagementFactory;
-import java.util.function.Supplier;
+import java.util.concurrent.Callable;
+
 
 /**
  * Created by Artsiom Mezin
@@ -11,18 +11,38 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings({"RedundantStringConstructorCall", "InfiniteLoopStatement"})
 public class Main {
+
+    static Callable[] srcArray = {
+            () -> new String("abc"),
+            () -> new String(""),
+            () -> new Integer(0),
+            () -> new Long(0),
+            () -> new Object(),
+            () -> {
+                int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+                return arr;
+            },
+            () -> {
+                int[] arr = {1, 2, 3, 4, 5, 6, 7};
+                return arr;
+            },
+            () -> {
+                int[] arr = {1};
+                return arr;
+            },
+            () -> {
+                int[] arr = {};
+                return arr;
+            },
+
+    };
+
     public static void main(String... args) throws InterruptedException {
 
-        MemoryMeter measurement = new MemoryMeter(
-                new Supplier<Object>() {
-                    @Override
-                    public String get() {
-                        return new String("abc");
-                    }
-                },
-                "String"
-        );
+        for (short i = 0; i < srcArray.length; i++) {
+            MemoryMeter stringMeter = new MemoryMeter(srcArray[i]);
 
-        measurement.meter();
+            System.out.printf("%s size is %d%n", stringMeter.getLabel(), stringMeter.meter());
+        }
     }
 }
