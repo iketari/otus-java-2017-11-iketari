@@ -1,20 +1,16 @@
 package ru.otus.l021;
 
-import jdk.nashorn.internal.objects.annotations.Function;
-
-import java.lang.management.ManagementFactory;
-import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
 public class MemoryMeter {
 
     private String label;
     private Runtime runtime = Runtime.getRuntime();
-    private Callable<Object> fn;
+    private Supplier<Object> fn;
 
-    public MemoryMeter(Callable<Object> fn) {
+    public MemoryMeter(Supplier<Object> fn) {
         try {
-            Object obj = fn.call();
+            Object obj = fn.get();
             this.label = obj.getClass().getName();
         } catch (Exception e) {
             System.out.println(e);
@@ -34,7 +30,7 @@ public class MemoryMeter {
 
         for (int i = 0; i < size; i++) {
             try {
-                array[i] = fn.call();
+                array[i] = fn.get();
             } catch (Exception e) {
                 System.out.println(e);
                 return 0;

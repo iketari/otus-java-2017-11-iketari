@@ -1,6 +1,7 @@
 package ru.otus.l021;
 
 import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 
 /**
@@ -12,7 +13,7 @@ import java.util.concurrent.Callable;
 @SuppressWarnings({"RedundantStringConstructorCall", "InfiniteLoopStatement"})
 public class Main {
 
-    static Callable[] srcArray = {
+    static Supplier[] srcArray = {
             () -> new String("abc"),
             () -> new String(""),
             () -> new Integer(0),
