@@ -40,7 +40,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.l011.Main</mainClass>
+                            <mainClass>ru.otus.l011.ru.otus.l031.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -65,7 +65,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.l011.Main</mainClass>
+                            <mainClass>ru.otus.l011.ru.otus.l031.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
