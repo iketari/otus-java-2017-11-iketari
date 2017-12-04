@@ -5,13 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 @DisplayName("ArrayList")
 class MyArrayListTest {
@@ -102,6 +100,39 @@ class MyArrayListTest {
         myList.addAll(listToAdd);
 
         assertEquals(6, myList.size());
+    }
+
+    @Test
+    @DisplayName("Collections.sort(list)")
+    void sort() throws Exception {
+        myList = new MyArrayList<>();
+        Integer[] expectedList = {0,1,2,3,4,5};
+
+        myList.add(2);
+        myList.add(0);
+        myList.add(3);
+        myList.add(5);
+        myList.add(1);
+        myList.add(4);
+
+        Collections.sort(myList);
+
+        Assertions.assertArrayEquals(expectedList, myList.toArray());
+    }
+
+    @Test
+    @DisplayName("Collections.cpoy(list)")
+    void copy() throws Exception {
+        myList = new MyArrayList<>();
+        MyArrayList<Integer> destMyList = new MyArrayList<>();
+        myList.add(1);
+        myList.add(2);
+        destMyList.add(0);
+        destMyList.add(0);
+
+        Collections.copy(destMyList, myList);
+
+        Assertions.assertArrayEquals(myList.toArray(), destMyList.toArray());
     }
 
 }
