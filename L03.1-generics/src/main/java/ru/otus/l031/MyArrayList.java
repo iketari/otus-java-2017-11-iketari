@@ -2,19 +2,26 @@ package ru.otus.l031;
 
 import java.util.*;
 
+/**
+ * Created by Artsiom Mezin.
+ *
+ * Home work 3 - Implementation of ArrayList
+ *
+ */
+
+
 public class MyArrayList<T> implements List<T> {
 
     private Object[] arr;
     private int size;
-    private int capacity;
 
-    private static int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 10;
 
-    public MyArrayList(int capacity) {
+    MyArrayList(int capacity) {
         initializeWithCapacity(capacity);
     }
 
-    public MyArrayList() {
+    MyArrayList() {
         initializeWithCapacity(DEFAULT_CAPACITY);
     }
 
@@ -53,7 +60,6 @@ public class MyArrayList<T> implements List<T> {
     private void initializeWithCapacity(int capacity) {
         this.arr = new Object[capacity];
         this.size = 0;
-        this.capacity = capacity;
     }
 
     private void allocateSize() {
@@ -61,17 +67,11 @@ public class MyArrayList<T> implements List<T> {
         size = size + size >> 2;
         arr = new Object[size];
 
-        for (int i = 0; i < currentArray.length; i++) {
-            arr[i] = currentArray[i];
-        }
+        System.arraycopy(currentArray, 0, arr, 0, size);
     }
 
     public boolean addAll(Collection<? extends T> c) {
-        Object[] a = c.toArray();
-
-        for (int i = 0; i < a.length; i++) {
-            add((T) a[i]);
-        }
+        c.forEach(elem -> add((elem)));
 
         return true;
     }
