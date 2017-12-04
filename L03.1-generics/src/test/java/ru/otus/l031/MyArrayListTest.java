@@ -1,14 +1,31 @@
 package ru.otus.l031;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
-
-public class MyArrayListTest {
+@DisplayName("ArrayList")
+class MyArrayListTest {
     MyArrayList<Integer> myList;
 
-    @org.junit.Test
-    public void size() throws Exception {
+    @Test
+    @DisplayName("is instantiated with new MyArrayList()")
+    void isInstantiatedWithNew() {
+        new MyArrayList<>();
+    }
+
+
+    @Test
+    void size() throws Exception {
        myList = new MyArrayList<>(10);
        assertEquals(0, myList.size());
 
@@ -16,8 +33,8 @@ public class MyArrayListTest {
        assertEquals(1, myList.size());
     }
 
-    @org.junit.Test
-    public void isEmpty() throws Exception {
+    @Test
+    void isEmpty() throws Exception {
         myList = new MyArrayList<>(10);
         assertEquals(true, myList.isEmpty());
 
@@ -25,21 +42,34 @@ public class MyArrayListTest {
         assertEquals(false, myList.isEmpty());
     }
 
-    @org.junit.Test
-    public void contains() throws Exception {
-        myList = new MyArrayList<>(10);
-        myList.add(1);
-        myList.add(2);
-        myList.add(3);
+    @Nested
+    @DisplayName("contains()")
+    class Contains {
+        @BeforeEach
+        void createNewList () {
+            myList = new MyArrayList<>(10);
 
-        myList.contains(3);
+            myList.add(1);
+            myList.add(2);
+            myList.add(3);
+        }
 
-        assertEquals(true, myList.contains(3));
-        assertEquals(false, myList.contains(4));
+        @Test
+        @DisplayName("contains")
+        void containsTrue() {
+            assertTrue(myList.contains(3));
+        }
+
+        @Test
+        @DisplayName("not contains")
+        void containsFalse() {
+            assertFalse(myList.contains(4));
+        }
+
     }
 
-    @org.junit.Test
-    public void add() throws Exception {
+    @Test
+    void add() throws Exception {
         myList = new MyArrayList<>(10);
         myList.add(1);
         myList.add(2);
@@ -52,12 +82,12 @@ public class MyArrayListTest {
         assertEquals(2, second);
     }
 
-    @org.junit.Test
-    public void remove() throws Exception {
+    @Test
+    void remove() throws Exception {
     }
 
-    @org.junit.Test
-    public void addAll() throws Exception {
+    @Test
+    void addAll() throws Exception {
         myList = new MyArrayList<>(10);
         ArrayList<Integer> listToAdd = new ArrayList<>();
 

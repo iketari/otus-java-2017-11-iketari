@@ -6,8 +6,8 @@ public class Main {
     static MyArrayList<Integer> myIntList;
     static ArrayList<Integer> intList;
     public static void main(String[] args) {
-        myIntList = new MyArrayList<Integer>(10);
-        intList = new ArrayList<Integer>();
+        myIntList = new MyArrayList<>(10);
+        intList = new ArrayList<>();
 
         intList.add(10);
         myIntList.add(10);
