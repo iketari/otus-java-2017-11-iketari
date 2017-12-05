@@ -10,7 +10,7 @@ import java.util.*;
  */
 
 
-public class MyArrayList<T> implements List<T>, RandomAccess {
+public class MyArrayList<T> implements List<T> {
 
     private Object[] arr;
     private int size;
@@ -168,7 +168,7 @@ public class MyArrayList<T> implements List<T>, RandomAccess {
     }
 
     public ListIterator<T> listIterator() {
-        return new ListItr(size);
+        return new ListItr(0);
     }
 
     public ListIterator<T> listIterator(int index) {
