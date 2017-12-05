@@ -10,6 +10,7 @@ import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @DisplayName("ArrayList")
 class MyArrayListTest {
@@ -82,6 +83,17 @@ class MyArrayListTest {
 
     @Test
     void remove() throws Exception {
+        myList = new MyArrayList<>(10);
+        Integer[] expectedList = {2,3};
+
+        myList.add(1);
+        myList.add(2);
+        myList.add(3);
+
+        Integer removed = myList.remove(0);
+
+        Assertions.assertArrayEquals(expectedList, myList.toArray());
+        assertEquals(1, (int) removed);
     }
 
     @Test
@@ -120,19 +132,41 @@ class MyArrayListTest {
         Assertions.assertArrayEquals(expectedList, myList.toArray());
     }
 
-    @Test
-    @DisplayName("Collections.cpoy(list)")
-    void copy() throws Exception {
-        myList = new MyArrayList<>();
-        MyArrayList<Integer> destMyList = new MyArrayList<>();
-        myList.add(1);
-        myList.add(2);
-        destMyList.add(0);
-        destMyList.add(0);
+    @Nested
+    @DisplayName("Collections.copy(list)")
+    class Copy {
 
-        Collections.copy(destMyList, myList);
+        @Test
+        @DisplayName("Collections.copy(list)")
+        void copy() throws Exception {
+            myList = new MyArrayList<>();
+            MyArrayList<Integer> destMyList = new MyArrayList<>();
+            myList.add(1);
+            myList.add(2);
+            destMyList.add(0);
+            destMyList.add(0);
 
-        Assertions.assertArrayEquals(myList.toArray(), destMyList.toArray());
+            Collections.copy(destMyList, myList);
+
+            Assertions.assertArrayEquals(myList.toArray(), destMyList.toArray());
+        }
+
+        @Test
+        @DisplayName("Collections.copy(list) long")
+        void copyLong() throws Exception {
+            myList = new MyArrayList<>(110);
+            List<Integer> destMyList = new MyArrayList<>(110);
+
+            for (int i = 0; i < 110; i++) {
+                myList.add(i);
+                destMyList.add(i);
+            }
+            Collections.copy(destMyList, myList);
+
+            Assertions.assertArrayEquals(myList.toArray(), destMyList.toArray());
+        }
+
     }
+
 
 }

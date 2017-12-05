@@ -10,7 +10,7 @@ import java.util.*;
  */
 
 
-public class MyArrayList<T> extends AbstractList<T> implements List<T> {
+public class MyArrayList<T> implements List<T>, RandomAccess {
 
     private Object[] arr;
     private int size;
@@ -45,7 +45,7 @@ public class MyArrayList<T> extends AbstractList<T> implements List<T> {
 
     public boolean add(T t) {
         if (size + 1 >= arr.length) {
-            allocateSize();
+               allocateSize();
         }
 
         arr[size++] = t;
@@ -75,11 +75,10 @@ public class MyArrayList<T> extends AbstractList<T> implements List<T> {
     }
 
     private void allocateSize() {
-        Object[] currentArray = arr;
-        size = size + size >> 2;
-        arr = new Object[size];
+        int oldLength = arr.length;
+        int newLength = oldLength + (oldLength >> 2);
 
-        System.arraycopy(currentArray, 0, arr, 0, size);
+        arr = Arrays.copyOf(arr, newLength);
     }
 
     T elementData(int index) {
@@ -93,7 +92,16 @@ public class MyArrayList<T> extends AbstractList<T> implements List<T> {
     }
 
     public T remove(int index) {
-        return null;
+        T removedValue = elementData(index);
+
+        int numMoved = size - index - 1;
+        if (numMoved > 0)
+            System.arraycopy(arr, index+1, arr, index,
+                    numMoved);
+
+        arr[--size] = null;
+
+        return removedValue;
     }
 
     public T set(int index, T element) {
@@ -204,6 +212,7 @@ public class MyArrayList<T> extends AbstractList<T> implements List<T> {
             MyArrayList.this.set(lastRet, e);
         }
 
+        @SuppressWarnings("unchecked")
         public T next() {
             int i = cursor;
             if (i >= size)
@@ -213,6 +222,7 @@ public class MyArrayList<T> extends AbstractList<T> implements List<T> {
             return (T) elementData[lastRet = i];
         }
 
+        @SuppressWarnings("unchecked")
         public T previous() {
             int i = cursor - 1;
             if (i < 0)
